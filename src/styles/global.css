@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+  --bg: #020408;
+  --bg2: #040c14;
+  --cyan: #00f5ff;
+  --cyan2: #00b8cc;
+  --orange: #ff6b35;
+  --white: #e8f4f8;
+  --gray: #4a6072;
+  --gray2: #8ba3b4;
+  --card-bg: rgba(0, 20, 35, 0.7);
+  --border: rgba(0, 245, 255, 0.12);
+  --font-head: 'Syne', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-mono);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+a,
+button {
+  cursor: none;
+}
