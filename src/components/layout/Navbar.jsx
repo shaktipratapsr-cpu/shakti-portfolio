@@ -1,4 +1,5 @@
 import { NAV_LINKS } from '../../data/portfolioData'
+import ResumeButton from './ResumeButton'
 import styles from '../../styles/portfolio.module.css'
 
 function Navbar() {
@@ -14,6 +15,9 @@ function Navbar() {
           </li>
         ))}
       </ul>
+      <div className={styles.navActions}>
+        <ResumeButton compact />
+      </div>
     </nav>
   )
 }
