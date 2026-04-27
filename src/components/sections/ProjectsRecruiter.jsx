@@ -1,24 +1,37 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+import { Link } from 'react-router-dom'
 import { PROJECTS } from '../../data/portfolioData'
+import fallbackImage from '../../assets/hero.png'
 import styles from '../../styles/portfolio.module.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
 function ProjectsRecruiter() {
   const sectionRef = useRef(null)
+  const orderedProjects = [...PROJECTS].sort((left, right) => Number(right.featured) - Number(left.featured))
+
+  const handleImageError = (event) => {
+    if (event.currentTarget.dataset.fallbackApplied === 'true') return
+    event.currentTarget.dataset.fallbackApplied = 'true'
+    event.currentTarget.src = fallbackImage
+  }
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('[data-project-item]', {
-        opacity: 0,
-        y: 40,
+      gsap.fromTo(
+        '[data-project-item]',
+        { y: 24, opacity: 1 },
+        {
+        y: 0,
+        opacity: 1,
         duration: 0.6,
         stagger: 0.15,
         ease: 'power3.out',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 70%', once: true },
-      })
+        },
+      )
     }, sectionRef)
 
     return () => ctx.revert()
@@ -38,12 +51,36 @@ function ProjectsRecruiter() {
         </div>
 
         <div className={styles.projectsGridRecruiter}>
-          {PROJECTS.map((project) => (
-            <article key={project.name} className={styles.projectCardRecruiter} data-project-item>
+          {orderedProjects.map((project) => (
+            <Link key={project.name} to={`/project/${project.slug}`} className={styles.projectCardRecruiterLink}>
+            <article className={styles.projectCardRecruiter} data-project-item>
               <div className={styles.projectImageWrap}>
-                <img src={project.images?.[0] || 'https://via.placeholder.com/500x300'} alt={project.name} className={styles.projectImage} />
+                <img
+                  src={project.images?.[0] || fallbackImage}
+                  alt={project.name}
+                  className={styles.projectImage}
+                  loading="lazy"
+                  decoding="async"
+                  onError={handleImageError}
+                />
                 {project.featured && <div className={styles.projectBadgeFeatured}>Featured</div>}
               </div>
+
+              {project.images?.length > 1 && (
+                <div className={styles.projectThumbStrip}>
+                  {project.images.slice(1).map((image, index) => (
+                    <img
+                      key={`${project.name}-${index}`}
+                      src={image}
+                      alt={`${project.name} preview ${index + 2}`}
+                      className={styles.projectThumb}
+                      loading="lazy"
+                      decoding="async"
+                      onError={handleImageError}
+                    />
+                  ))}
+                </div>
+              )}
 
               <div className={styles.projectInfoRecruiter}>
                 <div className={styles.projectMeta}>
@@ -53,10 +90,21 @@ function ProjectsRecruiter() {
                       <span className={styles.problemLabel}>Problem:</span> {project.problem}
                     </div>
                   )}
+                  {project.solution && (
+                    <div className={styles.projectSolution}>
+                      <span className={styles.problemLabel}>Solution:</span> {project.solution}
+                    </div>
+                  )}
                   {project.impact && <div className={styles.projectImpact}>📈 {project.impact}</div>}
                 </div>
 
                 <p className={styles.projectDescRecruiter}>{project.description}</p>
+
+                <ul className={styles.projectHighlightsRecruiter}>
+                  {project.highlights.slice(0, 3).map((highlight) => (
+                    <li key={highlight}>{highlight}</li>
+                  ))}
+                </ul>
 
                 <div className={styles.projectTechRecruiter}>
                   {project.tags.map((tag) => (
@@ -67,21 +115,11 @@ function ProjectsRecruiter() {
                 </div>
 
                 <div className={styles.projectCtaRecruiter}>
-                  {project.links.map((link) => (
-                    <a
-                      key={link.label}
-                      href={link.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={link.disabled ? styles.linkDisabled : styles.linkPrimary}
-                      onClick={link.disabled ? (e) => e.preventDefault() : undefined}
-                    >
-                      {link.label} →
-                    </a>
-                  ))}
+                  <span className={styles.projectDetailHint}>Open to view all screenshots and live demo</span>
                 </div>
               </div>
             </article>
+            </Link>
           ))}
         </div>
       </div>

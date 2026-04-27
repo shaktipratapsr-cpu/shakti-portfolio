@@ -5,13 +5,13 @@ import Loader from '../components/effects/Loader'
 import Footer from '../components/layout/Footer'
 import Navbar from '../components/layout/Navbar'
 import HeroRecruiters from '../components/sections/HeroRecruiters'
+import ProjectsRecruiter from '../components/sections/ProjectsRecruiter'
+import WhyHireMe from '../components/sections/WhyHireMe'
 import { usePortfolioAnimations } from '../hooks/usePortfolioAnimations'
 import styles from '../styles/portfolio.module.css'
 
 const Skills = lazy(() => import('../components/sections/Skills'))
-const ProjectsRecruiter = lazy(() => import('../components/sections/ProjectsRecruiter'))
 const Experience = lazy(() => import('../components/sections/Experience'))
-const WhyHireMe = lazy(() => import('../components/sections/WhyHireMe'))
 const ContactRecruiter = lazy(() => import('../components/sections/ContactRecruiter'))
 
 function HomePage() {

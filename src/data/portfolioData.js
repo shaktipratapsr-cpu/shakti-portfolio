@@ -1,3 +1,12 @@
+import ppt01 from '../assets/projects/ppt-01.png'
+import ppt02 from '../assets/projects/ppt-02.png'
+import ppt03 from '../assets/projects/ppt-03.png'
+import food01 from '../assets/projects/food-01.png'
+import food02 from '../assets/projects/food-02.png'
+import quickgpt01 from '../assets/projects/quickgpt-01.png'
+import quickgpt02 from '../assets/projects/quickgpt-02.png'
+import quickgpt03 from '../assets/projects/quickgpt-03.png'
+
 export const NAV_LINKS = [
   { label: 'Skills', href: '#skills' },
   { label: 'Projects', href: '#projects' },
@@ -36,6 +45,7 @@ export const PROJECTS = [
   {
     number: '01',
     name: 'AI-Powered PPT Generator',
+    slug: 'ai-powered-ppt-generator',
     description:
       'Transform ideas into stunning slide decks instantly. AI-powered presentation generator that converts prompts into export-ready PPTX files with real-time preview and custom template support.',
     problem: 'Manual presentation creation takes 80% longer than necessary',
@@ -50,19 +60,20 @@ export const PROJECTS = [
       'One-click PPTX export',
     ],
     images: [
-      'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=500&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop',
+      ppt01,
+      ppt02,
+      ppt03,
     ],
     links: [
       { label: 'GitHub', href: 'https://github.com/shaktipratapsr-cpu' },
       { label: 'Live Demo', href: '#', disabled: true },
     ],
-    featured: true,
+    featured: false,
   },
   {
     number: '02',
     name: 'Online Food Delivery System',
+    slug: 'online-food-delivery-system',
     description:
       'Full-stack food delivery platform connecting users with 200+ restaurants. Real-time order tracking, advanced filtering, and 95+ Lighthouse performance score.',
     problem: 'Fragmented food ordering experience with slow load times',
@@ -77,8 +88,8 @@ export const PROJECTS = [
       'Mobile-optimized checkout',
     ],
     images: [
-      'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1495465542159-7a92e29e58f6?w=500&h=300&fit=crop',
+      food01,
+      food02,
     ],
     links: [
       { label: 'Live Demo', href: 'https://food-del-frontend11-git-main-shakti-s-projects-f142e32b.vercel.app/' },
@@ -88,6 +99,7 @@ export const PROJECTS = [
   {
     number: '03',
     name: 'QuickGPT - AI Assistant',
+    slug: 'quickgpt-ai-assistant',
     description:
       'Sub-2s AI chat interface with streaming output. 10+ modular components built on scalable Node.js backend with external LLM integration.',
     problem: 'Slow AI assistants with rigid UI limit productivity',
@@ -102,16 +114,19 @@ export const PROJECTS = [
       'Chat history management',
     ],
     images: [
-      'https://images.unsplash.com/photo-1677442d019cecf8e5004a9560c1548db821b41e45fe0a4cffa1a1a34a40e16b?w=500&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop',
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop',
+      quickgpt01,
+      quickgpt02,
+      quickgpt03,
     ],
     links: [
       { label: 'Live Demo', href: 'https://quickgpt-with-public-dashborad.onrender.com/' },
       { label: 'GitHub', href: 'https://github.com/shaktipratapsr-cpu' },
     ],
+    featured: true,
   },
 ]
+
+export const getProjectEntry = (slug) => PROJECTS.find((project) => project.slug === slug) || null
 
 export const EXPERIENCE = [
   {

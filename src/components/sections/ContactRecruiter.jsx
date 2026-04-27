@@ -1,9 +1,49 @@
 import { useState, useEffect, useRef } from 'react'
+import emailjs from '@emailjs/browser'
 import gsap from 'gsap'
 import styles from '../../styles/portfolio.module.css'
 
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+
+function validateContactForm(values) {
+  const nextErrors = {}
+  const trimmedName = values.name.trim()
+  const trimmedEmail = values.email.trim()
+  const trimmedMessage = values.message.trim()
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+  if (!trimmedName) {
+    nextErrors.name = 'Name is required.'
+  }
+
+  if (!trimmedEmail) {
+    nextErrors.email = 'Email is required.'
+  } else if (!emailPattern.test(trimmedEmail)) {
+    nextErrors.email = 'Please enter a valid email address.'
+  }
+
+  if (!trimmedMessage) {
+    nextErrors.message = 'Message is required.'
+  }
+
+  return nextErrors
+}
+
+function FieldError({ id, message }) {
+  if (!message) return null
+
+  return (
+    <p id={id} className={styles.formError}>
+      {message}
+    </p>
+  )
+}
+
 function ContactRecruiter() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
+  const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState(null)
   const sectionRef = useRef(null)
@@ -25,32 +65,64 @@ function ContactRecruiter() {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+    const nextFormData = { ...formData, [name]: value }
+    setFormData(nextFormData)
+
+    if (errors[name]) {
+      const nextErrors = validateContactForm(nextFormData)
+      setErrors((prev) => ({ ...prev, [name]: nextErrors[name] }))
+    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true)
-    setStatus(null)
 
-    try {
-      const response = await fetch('https://formspree.io/f/xannjplj', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      })
-
-      if (response.ok) {
-        setStatus({ type: 'success', message: "Message sent! I'll respond soon." })
-        setFormData({ name: '', email: '', message: '' })
-      } else {
-        setStatus({ type: 'error', message: 'Something went wrong. Try emailing me directly.' })
-      }
-    } catch (err) {
-      setStatus({ type: 'error', message: 'Network error. Please try again.' })
+    const validationErrors = validateContactForm(formData)
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      setStatus({ type: 'error', message: 'Please fix the highlighted fields.' })
+      return
     }
 
-    setLoading(false)
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      setStatus({ type: 'error', message: 'Email service is not configured yet. Add EmailJS environment variables.' })
+      return
+    }
+
+    setLoading(true)
+    setStatus(null)
+    setErrors({})
+
+    try {
+      const trimmedValues = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        message: formData.message.trim(),
+      }
+
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          name: trimmedValues.name,
+          email: trimmedValues.email,
+          message: trimmedValues.message,
+          from_name: trimmedValues.name,
+          from_email: trimmedValues.email,
+          reply_to: trimmedValues.email,
+        },
+        {
+          publicKey: EMAILJS_PUBLIC_KEY,
+        },
+      )
+
+      setStatus({ type: 'success', message: 'Message sent successfully!' })
+      setFormData({ name: '', email: '', message: '' })
+    } catch {
+      setStatus({ type: 'error', message: 'Failed to send message. Please try again.' })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -88,7 +160,7 @@ function ContactRecruiter() {
             </div>
           </div>
 
-          <form className={styles.contactForm} onSubmit={handleSubmit} data-contact-item>
+          <form className={styles.contactForm} onSubmit={handleSubmit} data-contact-item noValidate>
             <div className={styles.formGroup}>
               <label className={styles.formLabel}>Name</label>
               <input
@@ -97,9 +169,11 @@ function ContactRecruiter() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Your name"
-                required
-                className={styles.formInput}
+                className={`${styles.formInput} ${errors.name ? styles.inputError : ''}`}
+                aria-invalid={Boolean(errors.name)}
+                aria-describedby={errors.name ? 'name-error' : undefined}
               />
+              <FieldError id="name-error" message={errors.name} />
             </div>
 
             <div className={styles.formGroup}>
@@ -110,9 +184,11 @@ function ContactRecruiter() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="your@email.com"
-                required
-                className={styles.formInput}
+                className={`${styles.formInput} ${errors.email ? styles.inputError : ''}`}
+                aria-invalid={Boolean(errors.email)}
+                aria-describedby={errors.email ? 'email-error' : undefined}
               />
+              <FieldError id="email-error" message={errors.email} />
             </div>
 
             <div className={styles.formGroup}>
@@ -122,10 +198,12 @@ function ContactRecruiter() {
                 value={formData.message}
                 onChange={handleChange}
                 placeholder="Tell me about the opportunity..."
-                required
                 rows="5"
-                className={styles.formTextarea}
+                className={`${styles.formTextarea} ${errors.message ? styles.inputError : ''}`}
+                aria-invalid={Boolean(errors.message)}
+                aria-describedby={errors.message ? 'message-error' : undefined}
               />
+              <FieldError id="message-error" message={errors.message} />
             </div>
 
             {status && (
@@ -134,7 +212,7 @@ function ContactRecruiter() {
               </div>
             )}
 
-            <button type="submit" disabled={loading} className={styles.submitButton}>
+            <button type="submit" disabled={loading} className={`${styles.submitButton} ${loading ? styles.submitButtonLoading : ''}`}>
               {loading ? 'Sending...' : 'Send Message →'}
             </button>
           </form>

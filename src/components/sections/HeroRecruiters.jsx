@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import ResumeButton from '../layout/ResumeButton'
 import styles from '../../styles/portfolio.module.css'
 
 function HeroRecruiters() {
@@ -73,6 +74,7 @@ function HeroRecruiters() {
           </div>
 
           <div className={styles.heroRecruiterCta} data-hero-cta>
+            <ResumeButton withMeta className={styles.heroResumeButton} />
             <a href="#projects" className={styles.btnPrimary}>
               View Projects
             </a>

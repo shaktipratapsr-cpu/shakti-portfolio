@@ -1,4 +1,5 @@
 import styles from '../../styles/portfolio.module.css'
+import ResumeButton from '../layout/ResumeButton'
 
 function Hero() {
   return (
@@ -17,6 +18,7 @@ function Hero() {
         <span className={styles.orangeText}>AI-powered architectures</span>. Currently interning at NIIT Limited, Gurugram.
       </p>
       <div className={styles.heroCta} data-hero-cta>
+        <ResumeButton withMeta className={styles.heroResumeButton} />
         <a href="#projects" className={styles.btnPrimary}>
           View Projects →
         </a>
