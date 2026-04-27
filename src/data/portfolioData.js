@@ -1,7 +1,16 @@
+import ppt01 from '../assets/projects/ppt-01.png'
+import ppt02 from '../assets/projects/ppt-02.png'
+import ppt03 from '../assets/projects/ppt-03.png'
+import food01 from '../assets/projects/food-01.png'
+import food02 from '../assets/projects/food-02.png'
+import quickgpt01 from '../assets/projects/quickgpt-01.png'
+import quickgpt02 from '../assets/projects/quickgpt-02.png'
+import quickgpt03 from '../assets/projects/quickgpt-03.png'
+
 export const NAV_LINKS = [
-  { label: 'About', href: '#about' },
   { label: 'Skills', href: '#skills' },
   { label: 'Projects', href: '#projects' },
+  { label: 'Why Hire', href: '#whyHireMe' },
   { label: 'Experience', href: '#experience' },
   { label: 'Contact', href: '#contact' },
 ]
@@ -36,37 +45,88 @@ export const PROJECTS = [
   {
     number: '01',
     name: 'AI-Powered PPT Generator',
+    slug: 'ai-powered-ppt-generator',
     description:
-      'A full-stack MCP-based presentation generator that converts natural language prompts into complete, export-ready PPTX files with real-time slide preview, AI-assisted editing, and custom template support.',
+      'Transform ideas into stunning slide decks instantly. AI-powered presentation generator that converts prompts into export-ready PPTX files with real-time preview and custom template support.',
+    problem: 'Manual presentation creation takes 80% longer than necessary',
+    solution: 'MCP-based AI engine converts prompts → structured slides in seconds',
+    impact: '80% reduction in presentation creation time',
     tags: ['React.js', 'Node.js', 'MCP Architecture', 'AI API', 'pptxgenjs'],
     highlights: [
-      'Generate 1-30 slides from a single prompt with AI-distributed content per slide',
-      '6+ built-in templates plus custom PPTX/JSON template upload support',
-      'Real-time slide preview panel with pixel-accurate rendering before export',
-      'Manual plus AI-assisted slide editing to refine any slide on demand',
-      'One-click PPTX export via pptxgenjs, fully Office-compatible',
-      'Around 80% reduction in manual presentation creation time',
+      'Generate 1-30 slides from single prompt',
+      '6+ templates + custom upload support',
+      'Real-time slide preview before export',
+      'AI-assisted + manual editing',
+      'One-click PPTX export',
     ],
-    links: [{ label: 'GitHub', href: 'https://github.com/shaktipratapsr-cpu' }],
-    featured: true,
+    images: [
+      ppt01,
+      ppt02,
+      ppt03,
+    ],
+    links: [
+      { label: 'GitHub', href: 'https://github.com/shaktipratapsr-cpu' },
+      { label: 'Live Demo', href: '#', disabled: true },
+    ],
+    featured: false,
   },
   {
     number: '02',
     name: 'Online Food Delivery System',
+    slug: 'online-food-delivery-system',
     description:
-      'End-to-end food delivery platform with 200+ restaurant listings, real-time order tracking across 4 stages, and advanced search filtering. Achieved 95+ Lighthouse score.',
+      'Full-stack food delivery platform connecting users with 200+ restaurants. Real-time order tracking, advanced filtering, and 95+ Lighthouse performance score.',
+    problem: 'Fragmented food ordering experience with slow load times',
+    solution: 'Unified platform with optimized performance and real-time tracking',
+    impact: '95+ Lighthouse score, sub-2s page load time',
     tags: ['React.js', 'Node.js', 'MongoDB', 'Express.js'],
-    links: [{ label: 'GitHub', href: 'https://github.com/shaktipratapsr-cpu' }],
+    highlights: [
+      '200+ restaurant integrations',
+      'Real-time order tracking (4 stages)',
+      'Advanced search & filtering',
+      '95+ Lighthouse performance',
+      'Mobile-optimized checkout',
+    ],
+    images: [
+      food01,
+      food02,
+    ],
+    links: [
+      { label: 'Live Demo', href: 'https://food-del-frontend11-git-main-shakti-s-projects-f142e32b.vercel.app/' },
+      { label: 'GitHub', href: 'https://github.com/shaktipratapsr-cpu' },
+    ],
   },
   {
     number: '03',
     name: 'QuickGPT - AI Assistant',
+    slug: 'quickgpt-ai-assistant',
     description:
-      'AI-powered chat interface with sub-2s response time, real-time streamed output, and 10+ modular React components. Built with scalable Express.js backend and external AI API integration.',
+      'Sub-2s AI chat interface with streaming output. 10+ modular components built on scalable Node.js backend with external LLM integration.',
+    problem: 'Slow AI assistants with rigid UI limit productivity',
+    solution: 'Streaming-based AI with modular, fast React architecture',
+    impact: 'Sub-2s response time, 99.2% uptime',
     tags: ['React.js', 'Node.js', 'AI API', 'A2UI'],
-    links: [{ label: 'GitHub', href: 'https://github.com/shaktipratapsr-cpu' }],
+    highlights: [
+      'Sub-2s response time',
+      '10+ reusable components',
+      'Real-time streaming output',
+      'Image generation integration',
+      'Chat history management',
+    ],
+    images: [
+      quickgpt01,
+      quickgpt02,
+      quickgpt03,
+    ],
+    links: [
+      { label: 'Live Demo', href: 'https://quickgpt-with-public-dashborad.onrender.com/' },
+      { label: 'GitHub', href: 'https://github.com/shaktipratapsr-cpu' },
+    ],
+    featured: true,
   },
 ]
+
+export const getProjectEntry = (slug) => PROJECTS.find((project) => project.slug === slug) || null
 
 export const EXPERIENCE = [
   {
@@ -75,21 +135,19 @@ export const EXPERIENCE = [
     company: 'NIIT Limited',
     location: 'Gurugram, Haryana',
     bullets: [
-      'Engineered 3+ full-stack web applications in React.js + Node.js, reducing average page load time by around 30% through component optimization and lazy loading.',
-      'Integrated 5+ third-party REST APIs (AI, payment, maps) into production apps, cutting manual data handling by 40%.',
-      'Implemented AI-assisted development workflows using A2UI and Google Antigravity, accelerating UI prototyping by around 50%.',
-      'Collaborated in 2-week Agile sprint cycles via Trello and Asana, consistently shipping assigned modules on time with zero critical production bugs.',
-      'Used rrweb session recording to analyze real user behavior, driving UI improvements that increased task completion rate by 20%.',
+      '↓ 30% page load time via React optimization + lazy loading; shipped 3+ production apps',
+      '↑ 5+ API integrations (AI, payment, maps); 40% reduction in manual data handling',
+      '↑ 50% UI prototyping speed using A2UI + Antigravity; zero critical production bugs',
     ],
   },
   {
     period: '2022 - 2026',
     title: 'B.Tech - Computer Science',
     company: 'DCRUST Murthal',
-    location: 'Deenbandhu Chhotu Ram University of Science and Technology',
+    location: 'Deenbandhu Chhotu Ram University',
     bullets: [
-      '8th Semester - Expected Graduation June 2026.',
-      'Coursework: Data Structures, Algorithms, DBMS, Operating Systems, Web Technologies.',
+      '8th Semester (Graduation: June 2026)',
+      'DSA, Algorithms, DBMS, OS, Web Technologies',
     ],
   },
 ]

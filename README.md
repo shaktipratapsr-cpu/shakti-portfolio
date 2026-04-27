@@ -76,3 +76,35 @@ npm run build
 ```bash
 npm run preview
 ```
+
+## Contact Form (EmailJS)
+
+The contact form is wired with EmailJS on the frontend (no backend required).
+
+### 1) Install dependencies
+
+```bash
+npm install
+```
+
+### 2) Configure environment variables
+
+Create a `.env` file in the project root using `.env.example` as reference:
+
+```env
+VITE_EMAILJS_SERVICE_ID=SERVICE_ID
+VITE_EMAILJS_TEMPLATE_ID=TEMPLATE_ID
+VITE_EMAILJS_PUBLIC_KEY=PUBLIC_KEY
+```
+
+### 3) EmailJS template variables
+
+The form sends:
+- `name`
+- `email`
+- `message`
+- `from_name`
+- `from_email`
+- `reply_to`
+
+Map these in your EmailJS template so submitted messages reach your inbox.
